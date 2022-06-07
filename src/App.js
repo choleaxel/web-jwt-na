@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import Login from "./components/Login";
+import Home from "./components/Home";
+import "antd/dist/antd.css";
 
 function App() {
+  const [token, setToken] = useState("");
+  useEffect(() => {
+    //when app first loads it checks local storage, finds token and sets state,logs in
+    const _token = localStorage.getItem("token"); //must use _token instead of token
+    if (_token) {
+      setToken(_token);
+    }
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!token ? <Login setToken={setToken} /> : <Home token={token} />}
     </div>
   );
 }
 
 export default App;
+
+//line 11, if no token
